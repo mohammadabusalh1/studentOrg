@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="studentsOrgModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="counter">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="count" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Programe">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Volunteer">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="30" Nullable="false" />
+          <Property Name="joinDate" Type="datetime" Nullable="false" />
+          <Property Name="Marital status" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="sex" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="age" Type="int" Nullable="false" />
+          <Property Name="Identification Number" Type="int" Nullable="false" />
+          <Property Name="address" Type="nchar" MaxLength="30" />
+          <Property Name="mobile" Type="int" />
+          <Property Name="educational attainment" Type="nchar" MaxLength="20" />
+          <Property Name="university or school" Type="nchar" MaxLength="20" />
+          <Property Name="programId" Type="int" />
+          <Property Name="owed money" Type="real" />
+          <Property Name="Evaluation" Type="int" />
+        </EntityType>
+        <Association Name="FK_Volunteer_Programe">
+          <End Role="Programe" Type="Self.Programe" Multiplicity="0..1" />
+          <End Role="Volunteer" Type="Self.Volunteer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Programe">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Volunteer">
+              <PropertyRef Name="programId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="studentsOrgModelStoreContainer">
+          <EntitySet Name="counter" EntityType="Self.counter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Programe" EntityType="Self.Programe" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Volunteer" EntityType="Self.Volunteer" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Volunteer_Programe" Association="Self.FK_Volunteer_Programe">
+            <End Role="Programe" EntitySet="Programe" />
+            <End Role="Volunteer" EntitySet="Volunteer" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="studentsOrgModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Programe">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Volunteers" Relationship="studentsOrgModel.FK_Volunteer_Programe" FromRole="Programe" ToRole="Volunteer" />
+        </EntityType>
+        <EntityType Name="Volunteer">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="joinDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Marital_status" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="sex" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="age" Type="Int32" Nullable="false" />
+          <Property Name="Identification_Number" Type="Int32" Nullable="false" />
+          <Property Name="address" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="mobile" Type="Int32" />
+          <Property Name="educational_attainment" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="university_or_school" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="programId" Type="Int32" />
+          <Property Name="owed_money" Type="Single" />
+          <Property Name="Evaluation" Type="Int32" />
+          <NavigationProperty Name="Programe" Relationship="studentsOrgModel.FK_Volunteer_Programe" FromRole="Volunteer" ToRole="Programe" />
+        </EntityType>
+        <EntityContainer Name="studentsOrgEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Programes" EntityType="Self.Programe" />
+          <EntitySet Name="Volunteers" EntityType="Self.Volunteer" />
+          <AssociationSet Name="FK_Volunteer_Programe" Association="studentsOrgModel.FK_Volunteer_Programe">
+            <End Role="Programe" EntitySet="Programes" />
+            <End Role="Volunteer" EntitySet="Volunteers" />
+          </AssociationSet>
+          <EntitySet Name="counters" EntityType="studentsOrgModel.counter" />
+        </EntityContainer>
+        <Association Name="FK_Volunteer_Programe">
+          <End Type="studentsOrgModel.Programe" Role="Programe" Multiplicity="0..1" />
+          <End Type="studentsOrgModel.Volunteer" Role="Volunteer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Programe">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Volunteer">
+              <PropertyRef Name="programId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="counter">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="count" Type="Int32" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="studentsOrgModelStoreContainer" CdmEntityContainer="studentsOrgEntities">
+          <EntitySetMapping Name="Programes">
+            <EntityTypeMapping TypeName="studentsOrgModel.Programe">
+              <MappingFragment StoreEntitySet="Programe">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Volunteers">
+            <EntityTypeMapping TypeName="studentsOrgModel.Volunteer">
+              <MappingFragment StoreEntitySet="Volunteer">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="joinDate" ColumnName="joinDate" />
+                <ScalarProperty Name="Marital_status" ColumnName="Marital status" />
+                <ScalarProperty Name="sex" ColumnName="sex" />
+                <ScalarProperty Name="age" ColumnName="age" />
+                <ScalarProperty Name="Identification_Number" ColumnName="Identification Number" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="mobile" ColumnName="mobile" />
+                <ScalarProperty Name="educational_attainment" ColumnName="educational attainment" />
+                <ScalarProperty Name="university_or_school" ColumnName="university or school" />
+                <ScalarProperty Name="programId" ColumnName="programId" />
+                <ScalarProperty Name="owed_money" ColumnName="owed money" />
+                <ScalarProperty Name="Evaluation" ColumnName="Evaluation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="counters">
+            <EntityTypeMapping TypeName="studentsOrgModel.counter">
+              <MappingFragment StoreEntitySet="counter">
+                <ScalarProperty Name="count" ColumnName="count" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
